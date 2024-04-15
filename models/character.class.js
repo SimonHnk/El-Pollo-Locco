@@ -22,6 +22,9 @@ class Character extends MovableObject {
     ];
     currentImage = 0;
     world;
+    walking_sound = new Audio('../audio/walk-on-sand.mp3');
+    walking_sound_speed = this.walking_sound.playbackRate = 2;
+    walking_sound_loop = this.walking_sound.loop = true;
 
 
     constructor() {
@@ -33,13 +36,20 @@ class Character extends MovableObject {
 
     animate() {
         setInterval(() => {
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.x += this.speed;
-                this.otherDirection = false;
+            this.walking_sound.pause();
+            if (this.world.keyboard.RIGHT) {
+                this.walking_sound.play();
+                if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+                    this.x += this.speed;
+                    this.otherDirection = false;
+                }
             }
-            if (this.world.keyboard.LEFT && this.x > 0) {
-                this.x -= this.speed;
-                this.otherDirection = true;
+            if (this.world.keyboard.LEFT) {
+                this.walking_sound.play();
+                if (this.world.keyboard.LEFT && this.x > 0) {
+                    this.x -= this.speed;
+                    this.otherDirection = true;
+                }
             }
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);

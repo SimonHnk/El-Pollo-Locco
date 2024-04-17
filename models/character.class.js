@@ -31,7 +31,7 @@ class Character extends MovableObject {
         '../img/2_character_pepe/3_jump/J-37.png',
         '../img/2_character_pepe/3_jump/J-38.png',
         '../img/2_character_pepe/3_jump/J-39.png',
-        
+
     ];
     world;
     walking_sound = new Audio('../audio/walk-on-sand.mp3');
@@ -51,23 +51,19 @@ class Character extends MovableObject {
     animate() {
         setInterval(() => {
             this.walking_sound.pause();
-            if (this.world.keyboard.RIGHT) {
+            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+                this.moveRight();
+                this.otherDirection = false;
                 this.walking_sound.play();
-                if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                    this.x += this.speed;
-                    this.otherDirection = false;
-                }
             }
-            if (this.world.keyboard.LEFT) {
+            if (this.world.keyboard.LEFT && this.x > 0) {
+                this.moveLeft();
+                this.otherDirection = true;
                 this.walking_sound.play();
-                if (this.world.keyboard.LEFT && this.x > 0) {
-                    this.x -= this.speed;
-                    this.otherDirection = true;
-                }
             }
             console.log(this.speedY);
-            if (this.world.keyboard.UP) {
-                this.speedY = 20;
+            if (this.world.keyboard.UP && !this.isAboveGround()) {
+                this.jump();
             }
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
@@ -81,18 +77,15 @@ class Character extends MovableObject {
             }
         }, 250);
         setInterval(() => {
-            if (this.isAboveGround()) {
-                this.playAnimation(this.IMAGES_JUMP);
-            }
             if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 this.animationSpeed = 100;
                 this.playAnimation(this.IMAGES_WALK);
             }
         }, 60);
-    }
-
-
-    jump() {
-
+        setInterval(() => {
+            if (this.isAboveGround()) {
+                this.playAnimation(this.IMAGES_JUMP);
+            }
+        }, 300);
     }
 }

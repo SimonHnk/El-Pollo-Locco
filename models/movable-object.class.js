@@ -70,6 +70,19 @@ class MovableObject {
     }
 
 
+    hit() {
+        this.health -= 3;
+        if (this.health <= 0) {
+            this.health = 0;
+        }
+    }
+
+
+    isDead() {
+        return this.health == 0;
+    }
+
+
     playAnimation(images) {
         let i = this.currentImage % images.length;
         let path = images[i];

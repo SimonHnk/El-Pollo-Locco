@@ -27,6 +27,15 @@ class Character extends MovableObject {
         '../img/2_character_pepe/3_jump/J-33.png',
         '../img/2_character_pepe/3_jump/J-34.png',
     ];
+    IMAGES_DEAD = [
+        '../img/2_character_pepe/5_dead/D-51.png',
+        '../img/2_character_pepe/5_dead/D-52.png',
+        '../img/2_character_pepe/5_dead/D-53.png',
+        '../img/2_character_pepe/5_dead/D-54.png',
+        '../img/2_character_pepe/5_dead/D-55.png',
+        '../img/2_character_pepe/5_dead/D-56.png',
+        '../img/2_character_pepe/5_dead/D-57.png',
+    ];
     world;
     walking_sound = new Audio('../audio/walk-on-sand.mp3');
     walking_sound_speed = this.walking_sound.playbackRate = 2;
@@ -38,6 +47,7 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_WALK);
         this.loadImages(this.IMAGES_JUMP);
+        this.loadImages(this.IMAGES_DEAD);
         this.applyGravity();
         this.animate();
     }
@@ -81,5 +91,10 @@ class Character extends MovableObject {
                 this.playAnimation(this.IMAGES_JUMP);
             }
         }, 500);
+        setInterval(() => {
+            if (this.isDead()) {
+                this.playAnimation(this.IMAGES_DEAD);
+            }
+        }, 300);
     }
 }

@@ -36,6 +36,11 @@ class Character extends MovableObject {
         '../img/2_character_pepe/5_dead/D-56.png',
         '../img/2_character_pepe/5_dead/D-57.png',
     ];
+    IMAGES_HURT = [
+        'img/2_character_pepe/4_hurt/H-41.png',
+        'img/2_character_pepe/4_hurt/H-42.png',
+        'img/2_character_pepe/4_hurt/H-43.png',
+    ];
     world;
     walking_sound = new Audio('../audio/walk-on-sand.mp3');
     walking_sound_speed = this.walking_sound.playbackRate = 2;
@@ -48,6 +53,7 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_WALK);
         this.loadImages(this.IMAGES_JUMP);
         this.loadImages(this.IMAGES_DEAD);
+        this.loadImages(this.IMAGES_HURT);
         this.applyGravity();
         this.animate();
     }
@@ -74,10 +80,7 @@ class Character extends MovableObject {
         setInterval(() => {
             if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT && !this.world.keyboard.UP && !this.world.keyboard.DOWN && !this.world.keyboard.SPACE) {
                 this.animationSpeed = 300;
-                let i = this.currentImage % this.IMAGES_IDLE.length;
-                let path = this.IMAGES_IDLE[i];
-                this.img = this.imageCache[path];
-                this.currentImage++;
+                this.playAnimation(this.IMAGES_IDLE)
             }
         }, 250);
         setInterval(() => {
@@ -96,5 +99,10 @@ class Character extends MovableObject {
                 this.playAnimation(this.IMAGES_DEAD);
             }
         }, 300);
+        setInterval(() => {
+            if (this.isHurt()) {
+                this.playAnimation(this.IMAGES_HURT);
+            }
+        }, 100);
     }
 }

@@ -18,17 +18,10 @@ class MovableObject extends DrawableObject {
 
 
     isAboveGround() {
-        return this.y < 180;
-    }
-
-
-    drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Chicken) {
-            ctx.beginPath();
-            ctx.lineWidth = "2";
-            ctx.strokeStyle = "green";
-            ctx.rect(this.x, this.y, this.width, this.height);
-            ctx.stroke();
+        if (this instanceof ThrowableObject) {
+            return this.y < 330;
+        } else {
+            return this.y < 180;
         }
     }
 
@@ -46,7 +39,7 @@ class MovableObject extends DrawableObject {
 
 
     hit() {
-        this.health -= 3;
+        this.health -= 5;
         if (this.health > 0) {
             this.lastHit = new Date().getTime();
         }
@@ -60,7 +53,7 @@ class MovableObject extends DrawableObject {
         return this.health == 0;
     }
 
-    
+
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit;
         timepassed = timepassed / 1000;
